@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Status</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="color:#ffffff;">ADT-10</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:#ffffff;">Welcome Admin</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><img src="img/bell.png"/><a href="ringtone.html"> RingTone
+                    Setting</a></span></li>
+                <li><img src="img/address.png"/><a href="address.html"> Address
+                    Setting</a></span></li>
+                <li><img src="img/phone.png"/><a href="sip.html">SIP Setting</a></li>
+                <li><img src="img/led.png"/><a href="led.html"> LED
+                    Setting</a></span></li>
+                <li><img src="img/lift.png"/><a href="lift.html"> Lift
+                    Control</a></span></li>
+                <li><img src="img/calendar.png"/><a href="calendar.html">DateTime
+                    Setting</a></span></li>
+                <li><img src="img/lang.png"/><a href="lang.html">Language
+                    Setting</a></span></li>
+                <!--<li><img src="img/bluetooth.png"/><a href="bluetooth.html">Bluetooth
+                    Setting</a></li>-->
+                <li><img src="img/lock.png"/><a href="password.html">Password
+                    Setting</a></li>
+                <li class="actived"><img src="img/system.png"/><a href="system.html">System
+                    Status</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9  col-md-10 main">
+            <div class="alert alert-danger" role="alert" id="alert_msg"></div>
+            <div class="alert alert-success" role="alert" id="success_msg"></div>
+            <form id="address_frm" style="margin: 20px 0 0 30px;">
+                <table class="table table-striped">
+                    <tr><td>LED Status:</td><td id="led">On</td></tr>
+                    <tr><td>Lift:</td><td id="lift">Off</td></tr>
+                    <tr><td>Language:</td><td>English</td></tr>
+                    <tr><td>MAC:</td><td id="mac">En</td></tr>
+                    <tr><td>Version:</td><td id="version">En</td></tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+<script>
+    $(document).ready(function () {
+        //reading Data from API
+        $.ajax({
+            url:"/api/led",
+            type:'get',
+            dataType:'json',
+            success:function(data) {
+                if(data.status==0){
+                    $('#led').html("ON");
+                }else{
+                    $('#led').html("OFF");
+                }
+            }
+        });
+
+        $.ajax({
+            url:"/api/lift",
+            type:'get',
+            dataType:'json',
+            success:function(data) {
+                if(data.status==0){
+                    $('#lift').html("ON");
+                }else{
+                    $('#lift').html("OFF");
+                }
+            }
+        });
+
+        $.ajax({
+            url:"/api/system",
+            type:'get',
+            dataType:'json',
+            success:function(data) {
+                console.log(data);
+                $('#mac').html(data.mac);
+                $('#version').html(data.version);
+            },
+            error:function(xhr, status, error) {
+                console.log(status, error);
+            }
+        });
+
+        $("#logout").click(function(){
+            $.ajax({
+                url:"/api/logout",
+                data:{},
+                type:'post',
+                dataType:'json',
+                success:function(data) {
+                    if(data.state==0){
+                        window.location.href="index.html";
+                    }
+                }
+            });
+        })
+    });
+</script>

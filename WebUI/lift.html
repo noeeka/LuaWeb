@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lift Control</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        td{padding: 10px 0 10px 10px;}
+
+    </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="color:#ffffff;">ADT-10</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:#ffffff;">Welcome Admin</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><img src="img/bell.png"/><a href="ringtone.html"> RingTone
+                    Setting</a></span></li>
+                <li><img src="img/address.png"/><a href="address.html"> Address
+                    Setting</a></span></li>
+                <li><img src="img/phone.png"/><a href="sip.html">SIP Setting</a></li>
+                <li><img src="img/led.png"/><a href="led.html"> LED
+                    Setting</a></span></li>
+                <li class="actived"><img src="img/lift.png"/><a href="lift.html"> Lift
+                    Control</a></span></li>
+                <li><img src="img/calendar.png"/><a href="calendar.html">DateTime
+                    Setting</a></span></li>
+                <li><img src="img/lang.png"/><a href="lang.html">Language
+                    Setting</a></span></li>
+                <!--<li><img src="img/bluetooth.png"/><a href="bluetooth.html">Bluetooth
+                    Setting</a></li>-->
+                <li><img src="img/lock.png"/><a href="password.html">Password
+                    Setting</a></li>
+                <li><img src="img/system.png"/><a href="system.html">System
+                    Status</a></li>
+            </ul>
+
+        </div>
+
+
+        <div class="col-sm-9  col-md-10 main">
+            <div class="alert alert-danger" role="alert" id="alert_msg"></div>
+            <div class="alert alert-success" role="alert" id="success_msg"></div>
+            <form id="address_frm" style="margin: 20px 0 0 30px;">
+                <table width="100%">
+                    <tr style="background-color: #f5f5f5;">
+                        <td colspan="3"><table><tr><td id="enable">Enable</td><td style="padding-left: 50px;"><input type="checkbox" data-toggle="switch" data-size="large" id="lift"/></td><td id="disable" style="padding-left: 50px;">Disable</td></tr></table></td>
+                    </tr>
+                    <tr>
+                        <td width="30%">Lift Controller IP Address:</td>
+                        <td id="ip_groups" width="70%"><input style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                            style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                            class="form-control input-sm" type="text" style="display: inline;width:10%;">.<input
+                            class="form-control input-sm" type="text" style="display: inline;width:10%;">
+                        <input type="hidden" id="ip" name="ip"></td>
+                    <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" id="btn" href="#" class="btn  btn-primary" style="width: 200px; float: left;" value="Update"/></td>
+                    <td></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //reading Data from API
+        $.ajax({
+            url: "/api/lift",
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 0) {
+                    $('#lift').bootstrapSwitch('state', true);
+                    $('#lift').bootstrapSwitch('size','large');
+                    $("#enable").css("color","#1abc9c")
+                    //parsing IP data
+                    var ip_sets = data.ip.split(".")
+                    $("#ip_groups").find("input").eq(0).val(ip_sets[0]);
+                    $("#ip_groups").find("input").eq(1).val(ip_sets[1]);
+                    $("#ip_groups").find("input").eq(2).val(ip_sets[2]);
+                    $("#ip_groups").find("input").eq(3).val(ip_sets[3]);
+                    $("#ip").val(data.ip);
+                } else {
+                    $('#lift').bootstrapSwitch('state', false);
+                    $('#lift').bootstrapSwitch('size','large');
+                    $("#disable").css("color","#1abc9c")
+                    $("#ip_groups").find("input").each(function (k, v) {
+                        $(v).attr("disabled", true);
+                    });
+
+                    var ip_sets = data.ip.split(".")
+                    $("#ip_groups").find("input").eq(0).val(ip_sets[0]);
+                    $("#ip_groups").find("input").eq(1).val(ip_sets[1]);
+                    $("#ip_groups").find("input").eq(2).val(ip_sets[2]);
+                    $("#ip_groups").find("input").eq(3).val(ip_sets[3]);
+                    $("#ip").val(data.ip);
+
+                }
+
+            }
+        });
+
+        $('#lift').on({
+            'switchChange.bootstrapSwitch': function (event, state) {
+                if (state == false) {
+                    $("#disable").css("color","#1abc9c")
+                    $("#enable").css("color","black")
+                    $("#ip_groups").find("input").each(function (k, v) {
+                        $(v).attr("disabled", true);
+                    });
+                    $("#lift").attr("checked", false);
+                } else {
+
+                    $("#enable").css("color","#1abc9c")
+                    $("#disable").css("color","black")
+                    $("#ip_groups").find("input").each(function (k, v) {
+                        $(v).attr("disabled", false);
+                    });
+                    $("#lift").attr("checked", true);
+                }
+            }
+        });
+        $("#ip_groups > input").keyup(function () {
+            $(this).parent().children("input:last-child").val($(this).parent().children().eq(0).val() + "." + $(this).parent().children().eq(1).val() + "." + $(this).parent().children().eq(2).val() + "." + $(this).parent().children().eq(3).val());
+        });
+        jQuery.validator.addMethod("ip", function (value, element) {
+            $("#success_msg").hide();
+            return this.optional(element) || /^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/.test(value);
+        }, "Please input correct IP");
+
+        $("#address_frm").validate({
+            errorLabelContainer: "#alert_msg",
+            debug: false,
+            errorElement: "div",
+            submitHandler: function (form) {
+                if ($('#lift').attr("checked") == "checked") {
+                    var status = 0;
+                } else {
+                    var status = 1;
+                }
+                if($("#ip").val()!="..."){
+                    if(/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/.test($("#ip").val())==false){
+
+                        $("#success_msg").hide();
+                        $("#alert_msg").html("");
+                        $("#alert_msg").html("Please input Correct IP");
+                        $("#alert_msg").show();
+                        return false;
+                    }
+                }
+                $.ajax({
+                    url: "/api/lift",
+                    data: {status: status, ip: $("#ip").val()},
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.state == 0) {
+                            $("#alert_msg").hide();
+                            $("#success_msg").html("Update Success");
+                            $("#success_msg").show();
+                        } else {
+                            $("#success_msg").hide();
+                            $("#alert_msg").html("Internal Service Error");
+                            $("#alert_msg").show();
+                        }
+                    }
+                });
+            },
+            rules: {
+                ip: {
+                    ip: true,
+                }
+            },
+			showErrors: function(errorMap, errorList) {
+				if(this.errorList.length > 0) {
+					this.errorList = [this.errorList[0]];
+				}
+				this.defaultShowErrors();
+			},
+
+            messages: {
+
+            }
+
+        });
+        $("#logout").click(function(){
+            $.ajax({
+                url:"/api/logout",
+                data:{},
+                type:'post',
+                dataType:'json',
+                success:function(data) {
+                    if(data.state==0){
+                        window.location.href="index.html";
+                    }
+                }
+            });
+        })
+
+    });
+</script>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIP Setting</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        td{padding: 10px 0 10px 10px;}
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="color:#ffffff;">ADT-10</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:#ffffff;">Welcome Admin</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><img src="img/bell.png"/><a href="ringtone.html">  RingTone Setting</a></span></li>
+                <li><img src="img/address.png"/><a href="address.html">  Address Setting</a></span></li>
+                <li class="actived"><img src="img/phone.png"/><a href="sip.html">SIP Setting</a></li>
+                <li><img src="img/led.png"/><a href="led.html">  LED Setting</a></span></li>
+                <li><img src="img/lift.png"/><a href="lift.html"> Lift Control</a></span></li>
+                <li><img src="img/calendar.png"/><a href="calendar.html">DateTime Setting</a></span></li>
+                <li><img src="img/lang.png"/><a href="lang.html">Language Setting</a></span></li>
+                <!--<li><img src="img/bluetooth.png"/><a href="bluetooth.html">Bluetooth Setting</a></li>-->
+                <li><img src="img/lock.png"/><a href="password.html">Password Setting</a></li>
+                <li><img src="img/system.png"/><a href="system.html">System Status</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9  col-md-10 main">
+            <div class="alert alert-danger" role="alert" id="alert_msg"></div>
+            <div class="alert alert-success" role="alert" id="success_msg"></div>
+            <form action="#" class="form" style="margin: 20px 0 0 30px;">
+                <table width="50.5%">
+
+                    <tr>
+                        <td style="font-size: 18px;">Enable Register:</td>
+                        <td>
+                            <input type="checkbox" data-toggle="switch" id="reg" style="display:inline-block;"/>
+                            <input type="hidden" id="enbale_reg" value="0">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size: 18px;">User Account:</td>
+                        <td><input type="text" name="username" id="username" class="form-control input-sm" autocomplete="off"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 18px;">Password:</td>
+                        <td>
+                            <input type="text" name="password" id="password" class="form-control input-sm" autocomplete="off"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size: 18px;">SIP Server:</td>
+                        <td id="sip_ip">
+
+                            <input style="display: inline;width:20%;" class="form-control input-sm" type="text">.<input
+                                style="display: inline;width:20%;" class="form-control input-sm" type="text">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:20%;">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:20%;">
+
+                            <input class="form-control" type="hidden" id="sip" name="sip">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size: 18px;">Management Account:</td>
+                        <td><input type="text" name="receiver" id="receiver" class="form-control input-sm"></td>
+                    </tr>
+                    <tr>
+                        <td width="30%"></td>
+                        <td width="70%"><a id="btn" href="#" class="btn  btn-primary" style="width: 200px; float: left;">Update</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#sip_ip input").keyup(function () {
+                this.value = this.value.replace(/[^\d]/g, '');
+                $(this).parent().children("input:last-child").val($(this).parent().find("input").eq(0).val() + "." + $(this).parent().find("input").eq(1).val() + "." + $(this).parent().find("input").eq(2).val() + "." + $(this).parent().find("input").eq(3).val());
+
+        });
+
+        //setting toggle state
+        $('#reg').on({
+            'switchChange.bootstrapSwitch': function (event, state) {
+                if (state == false) {
+                    $('#enbale_reg').val(1)
+                    $("#username").attr("disabled",true);
+                    $("#password").attr("disabled",true);
+                    $("#sip_ip").find("input").each(function (k, v) {
+                        $(v).attr("disabled", true);
+                    });
+                    $("#receiver").attr("disabled",true);
+
+                } else {
+                    $('#enbale_reg').val(0)
+                    $("#username").attr("disabled",false);
+                    $("#password").attr("disabled",false);
+                    $("#sip_ip").find("input").each(function (k, v) {
+                        $(v).attr("disabled", false);
+                    });
+                    $("#receiver").attr("disabled",false);
+                }
+            }
+        });
+        //reading Data from API
+        $.ajax({
+            url:"/api/sip",
+            type:'get',
+            dataType:'json',
+            success:function(data) {
+                if(data.enable_register==1){
+                    $('#reg').bootstrapSwitch('state', false);
+                    $('#enbale_reg').val(1)
+                    $("#username").attr("disabled",true);
+                    $("#password").attr("disabled",true);
+                    $("#sip_ip").find("input").each(function (k, v) {
+                        $(v).attr("disabled", true);
+                    });
+                    $("#receiver").attr("disabled",true);
+                }else{
+                    $('#reg').bootstrapSwitch('state', true);
+                    $('#enbale_reg').val(0)
+                    $("#username").attr("disabled",false);
+                    $("#password").attr("disabled",false);
+                    $("#sip_ip").find("input").each(function (k, v) {
+                        $(v).attr("disabled", false);
+                    });
+                    $("#receiver").attr("disabled",false);
+                }
+
+                $("#username").val(data.username);
+                $("#password").val(data.password);
+
+
+                //parsing mask data
+				if(!data.server) {
+					data.server = '...';
+				}
+                var ips = data.server.split(".");
+                $("#sip").parent().find("input").each(function (k, v) {
+                    $(v).val(ips[k])
+                });
+
+                $("#receiver").val(data.receiver);
+                $("#sip").val(data.server);
+            }
+        });
+
+        $("#btn").click(function(){
+            var status = $("#enbale_reg").val();
+			if(0 == status) {
+				var clen = $("#username").val().replace(/[^x00-xFF]/g,'**').length;
+				if(clen > 20 || clen < 1) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("Invalid User Account(must be 1-20 characters or numerical digits)");
+                    $("#alert_msg").show();
+					return;
+				}
+				clen = $("#password").val().replace(/[^x00-xFF]/g,'**').length;
+				if(clen > 20) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("The password is too long ( must be 1-20 characters or numerical digits)");
+                    $("#alert_msg").show();
+					return;
+				}
+				var pattern = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+    			if(!pattern.test($("#sip").val())) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("Invalid SIP Server");
+                    $("#alert_msg").show();
+					return;
+				}
+				clen = $("#receiver").val().replace(/[^x00-xFF]/g,'**').length;
+				if(clen > 20) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("Invalid Management Account");
+                    $("#alert_msg").show();
+					return;
+				}
+			} else {
+				var clen = $("#username").val().replace(/[^x00-xFF]/g,'**').length;
+				if(clen > 20) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("Invalid User Account");
+                    $("#alert_msg").show();
+					return;
+				}
+				clen = $("#password").val().replace(/[^x00-xFF]/g,'**').length;
+				if(clen > 20) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("The password is too long ( must be 1-20 characters or numerical digits)");
+                    $("#alert_msg").show();
+					return;
+				}
+				var pattern = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+    			if($("#sip").val() != "..." && $("#sip").val() != "" && !pattern.test($("#sip").val())) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("Invalid SIP Server");
+                    $("#alert_msg").show();
+					return;
+				}
+				clen = $("#receiver").val().replace(/[^x00-xFF]/g,'**').length;
+				if(clen > 20) {
+					$("#success_msg").hide();
+                    $("#alert_msg").html("Invalid Management Account");
+                    $("#alert_msg").show();
+					return;
+				}
+			}
+
+            $.ajax({
+                url:"/api/sip",
+                data:{
+                    username: $("#username").val(),
+                    password: $("#password").val(),
+                    sip: $("#sip").val(),
+                    receiver: $("#receiver").val(),
+                    enbale_reg: $("#enbale_reg").val(),
+
+                },
+                type:'post',
+                dataType:'json',
+                success:function(data) {
+                    if(data.state==0){
+                        $("#alert_msg").hide();
+                        $("#success_msg").html("Update Success");
+                        $("#success_msg").show();
+                    }else{
+                        $("#success_msg").hide();
+                        $("#alert_msg").html("Internal Service Error");
+                        $("#alert_msg").show();
+                    }
+                }
+            });
+
+        });
+
+        $("#logout").click(function(){
+            $.ajax({
+                url:"/api/logout",
+                data:{},
+                type:'post',
+                dataType:'json',
+                success:function(data) {
+                    if(data.state==0){
+                        window.location.href="index.html";
+                    }
+                }
+            });
+        })
+    });
+</script>

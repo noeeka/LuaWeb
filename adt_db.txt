@@ -1,0 +1,23 @@
+CREATE TABLE config(name text,item text);
+CREATE TABLE users(name text,password text);
+
+
+
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE config(name text,item text);
+INSERT INTO "config" VALUES('ringtone','{"outdoor":"1","inhouse":"2","management":"3","duration":0,"touch":on}');
+INSERT INTO "config" VALUES('address','{"address":"[45,1,2]","ip":"5.8.8.8","mask":"255.255.255.0","gateway":"8.8.8.8","management":"8.8.8.8","guard":"8.8.8.8"}');
+INSERT INTO "config" VALUES('led','{"status":0}');
+INSERT INTO "config" VALUES('lift','{"status":1,"ip":"343434..."}');
+INSERT INTO "config" VALUES('datetime','{"synch":0,"datetime":"25/Apr/2017 14:57"}');
+INSERT INTO "config" VALUES('language','{"language":"en"}');
+INSERT INTO "config" VALUES('administrator','{"name":"systec","password":"123456"}');
+INSERT INTO "config" VALUES('system','{"address":"[101,10,1]","ip":"192.168.1.100","mac":"52:62:52::w3:d2:q1","version":"1.0"}');
+INSERT INTO "config" VALUES('bluetooth','{"status":0,"bluetooth":[{"name":"po","status":0},{"name":"ab1","status":0},{"name":"b2","status":0},{"name":"b13","status":0}]}');
+INSERT INTO "config" VALUES('volume','{"ringvolume":5,"callvolume":5}');
+
+CREATE TABLE users(name text,password text);
+INSERT INTO "users" VALUES('admin','123456');
+INSERT INTO "users" VALUES('systec','123456');
+COMMIT;

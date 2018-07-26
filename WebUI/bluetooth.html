@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bluetooth Setting</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ADT-10</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Welcome Admin</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><img src="img/bell.png"/><a href="ringtone.html"> RingTone
+                    Setting</a></span></li>
+                <li><img src="img/address.png"/><a href="address.html"> Address
+                    Setting</a></span></li>
+                <li><img src="img/led.png"/><a href="led.html"> LED
+                    Setting</a></span></li>
+                <li><img src="img/lift.png"/><a href="lift.html"> Lift
+                    Setting</a></span></li>
+                <li><img src="img/calendar.png"/><a href="calendar.html">DateTime
+                    Setting</a></span></li>
+                <li><img src="img/lang.png"/><a href="lang.html">Language
+                    Setting</a></span></li>
+                <li class="actived"><img src="img/bluetooth.png"/><a href="bluetooth.html">Bluetooth
+                    Setting</a></li>
+            </ul>
+
+            <ul class="nav nav-sidebar">
+                <li><img src="img/lock.png"/><a href="password.html">Password
+                    Setting</a></li>
+                <li><img src="img/system.png"/><a href="system.html">System
+                    Status</a></li>
+                <li><img src="img/phone.png"/><a href="sip.html">SIP Setting</a></li>
+            </ul>
+
+        </div>
+
+
+        <div class="col-sm-9  col-md-10 main">
+            <div class="alert alert-danger" role="alert" id="alert_msg" style="display: none;"></div>
+            <form id="address_frm" style="margin: 20px 0 0 30px;">
+                <div class="form-group" style="background-color: #f5f5f5; line-height: 45px;">
+                    <label for="switch" class="col-lg-2 control-label" style="font-size: 20px;">Bluetooth:</label><input type="checkbox" data-toggle="switch" id="switch"/>
+                </div>
+
+                <table class="table" id="bts">
+                    <tr>
+                        <td>Name</td>
+                        <td>Operation</td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+<script>
+    $(document).ready(function () {
+        $("table").hide();
+        var flag;
+        $('#switch').on({'switchChange.bootstrapSwitch': function (event, state) {
+                if (state == true) {
+                    $("table").show();
+                    var table_sets = [];
+                    flag = setInterval(function () {
+                        //collect data in table in order to remove the repeat data
+                        $.each($("table").find("tr"), function (k, v) {
+                            if ($.inArray($(v).find("td").eq(1).html(), table_sets) < 0 && $(v).find("td").eq(1).html() != "Name" && k > 0) {
+                                table_sets.push($(v).find("td").eq(0).html());
+                            }
+                        });
+
+
+                        $.ajax({
+                            url: "/api/bluetooth",
+                            success: function (data) {
+                                //fetching data in page table
+                                var data = jQuery.parseJSON(data)
+                                //if no data from API remove data from table in page
+                                var temp_bts=[];
+                                $.each(data.bluetooth, function (k, v) {
+                                    temp_bts.push(v.name);
+                                })
+                                $.each($("table").find("tr"), function (k, v) {
+                                    if ($.inArray($(v).find("td").eq(0).html(),temp_bts) < 0 && k > 0) {
+                                        $(v).remove();
+                                    }
+                                })
+
+                                $.each(data.bluetooth, function (k, v) {
+                                    if ($.inArray(v.name, table_sets) < 0) {
+                                        table_sets.push(v.name)
+                                        if(v.status==0){
+                                            $("table").append("<tr><td>" + v.name + "</td><td><input type=\"checkbox\" class=\"toggles\" data-on-color=\"info\"  data-toggle=\"switch\" id=\""+v.name+"\"/></td>")
+                                            $("#"+v.name).bootstrapSwitch('state', true);
+                                        }else{
+                                            $("table").append("<tr><td>" + v.name + "</td><td><input type=\"checkbox\" class=\"toggles\" data-on-color=\"info\"  data-toggle=\"switch\" id=\""+v.name+"\"/></td>")
+                                            $("#"+v.name).bootstrapSwitch('state', false);
+                                        }
+                                    }
+                                })
+
+                                $('.toggles').on({'switchChange.bootstrapSwitch': function(event, state) {
+                                    if(state==true){
+                                        $(".toggles").each(function(){
+                                            alert("dddd");
+                                            $(this).on({'setState.bootstrapSwitch':false});
+                                            //$(this).attr('checked',false);
+                                        });
+                                    }else{
+                                        $(".toggles").each(function(){
+                                            //$(this).attr('checked',true);
+                                            $(this).on({'setState.bootstrapSwitch':false});
+                                        });
+                                    }
+                                }
+                                });
+
+
+                            },
+                            data: "json"
+                        });
+                    }, 1000);
+                } else {
+                    $("table").hide();
+                    clearInterval(flag);
+                    return false;
+
+                }
+            }
+        });
+
+
+
+        $("#logout").click(function(){
+            $.ajax({
+                url:"/api/logout",
+                data:{},
+                type:'post',
+                dataType:'json',
+                success:function(data) {
+                    if(data.state==0){
+                        window.location.href="index.html";
+                    }
+                }
+            });
+        })
+
+
+
+    });
+</script>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Setting</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        td {
+            padding: 10px 0 10px 10px;
+        }
+    </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="color:#ffffff;">ADT-10</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:#ffffff;">Welcome Admin</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><img src="img/bell.png"/><a href="ringtone.html"> RingTone
+                    Setting</a></span></li>
+                <li><img src="img/address.png"/><a href="address.html"> Address
+                    Setting</a></span></li>
+                <li><img src="img/phone.png"/><a href="sip.html">SIP Setting</a></li>
+                <li><img src="img/led.png"/><a href="led.html"> LED
+                    Setting</a></span></li>
+                <li><img src="img/lift.png"/><a href="lift.html"> Lift
+                    Control</a></span></li>
+                <li class="actived"><img src="img/calendar.png"/><a href="calendar.html">DateTime
+                    Setting</a></span></li>
+                <li><img src="img/lang.png"/><a href="lang.html">Language
+                    Setting</a></span></li>
+                <!--<li><img src="img/bluetooth.png"/><a href="bluetooth.html">Bluetooth
+                    Setting</a></li>-->
+                <li><img src="img/lock.png"/><a href="password.html">Password
+                    Setting</a></li>
+                <li><img src="img/system.png"/><a href="system.html">System
+                    Status</a></li>
+            </ul>
+
+        </div>
+
+
+        <div class="col-sm-9  col-md-10 main">
+            <div class="alert alert-danger" role="alert" id="alert_msg"></div>
+            <div class="alert alert-success" role="alert" id="success_msg"></div>
+            <form id="address_frm" style="margin: 20px 0 0 30px;">
+                <table width="100%">
+                    <tr style="background-color: #f5f5f5;">
+                        <td width="40%">Sync from Mangement Center:</td>
+                        <td width="60%">
+                            <input type="checkbox" data-toggle="switch" id="synh" style="display:inline-block;"/></td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td width="40%">TimeZone：</td>
+                        <td width="60%">
+                            <select id="timezone" name="timezone" style="display:inline-block; width:200px;">
+                                <option value="Etc/GMT">(UTC)Dublin,Edinburgh,Lisbon,London</option>
+                                <option value="Etc/GMT+1">(UTC+01:00)Amsterdam,Berlin,Bern,Rome,Stockholm,Vienna(UTC+1)</option>
+                                <option value="Etc/GMT+2">(UTC+02:00)Helsinki,Kyiv,Riga,Sofia,Talinn,Vilnius</option>
+                                <option value="Etc/GMT+3">(UTC+03:00)Moscow,St.Petersburg,Volgograd</option>
+                                <option value="Etc/GMT+4">(UTC+04:00)Port Louis</option>
+                                <option value="Etc/GMT+5">(UTC+05:00)Islamabad,Karachi</option>
+                                <option value="Etc/GMT+6">(UTC+06:00)Novosibirsk</option>
+                                <option value="Etc/GMT+7">(UTC+07:00)Bangkok,Hanoi,Jakarta</option>
+                                <option value="Etc/GMT+8">(UTC+08:00)Beijing,Chongqing,Hong Kong,Urumqi</option>
+                                <option value="Etc/GMT+9">(UTC+09:00)Osaka,Sapporo,Tokyo</option>
+                                <option value="Etc/GMT+10">(UTC+10:00)Brisban</option>
+                                <option value="Etc/GMT+11">(UTC+11:00)Solomon Is.,New Caledonia</option>
+                                <option value="Etc/GMT+12">(UTC+12:00)Fiji</option>
+                                <option value="Etc/GMT-12">(UTC-12:00)International Date Line West</option>
+                                <option value="Etc/GMT-11">(UTC-11:00)Samoa</option>
+                                <option value="Etc/GMT-10">(UTC-10:00)Hawaii</option>
+                                <option value="Etc/GMT-9">(UTC-09:00)Alaska</option>
+                                <option value="Etc/GMT-8">(UTC-08:00)Baja California</option>
+                                <option value="Etc/GMT-7">(UTC-07:00)Chihuahua,La Paz,Mazatlan</option>
+                                <option value="Etc/GMT-6">(UTC-06:00)Mid Time(American & Canada)</option>
+                                <option value="Etc/GMT-5">(UTC-05:00)Bogota,Lima,Quito</option>
+                                <option value="Etc/GMT-4">(UTC-04:00)Atlantic Time (Canada)</option>
+                                <option value="Etc/GMT-3">(UTC-03:00)Buenos Aires</option>
+                                <option value="Etc/GMT-2">(UTC-02:00)Mid-Atlantic</option>
+                                <option value="Etc/GMT-1">(UTC-01:00)Cape Verde Is.</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="40%">Date and Time:</td>
+                        <td width="60%">
+                            <div id="date"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" id="btn" href="#" class="btn  btn-primary" style="width: 200px;" value="Update"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        //reading Data from API
+        $.ajax({
+            url: "/api/datetime",
+            type: 'get',
+            //dataType: 'json',
+            dataType: 'jsonp',
+            jsonp: 'callbackfun',
+            jsonpCallback: 'jsonpCallback',
+            success: function (data) {
+                //console.log(data);
+                if (data.synch == 0) {
+                    $('#synh').bootstrapSwitch('state', true);
+                    //$("#date").attr("disabled", true);
+                    //$("#date").val(data.date);
+                    $("#date").html(data.date);
+
+                } else {
+                    $('#synh').bootstrapSwitch('state', false);
+                    //$("#date").attr("disabled", false);
+                    //parsing datetime data
+                    //$("#date").val(data.date);
+                    $("#date").html(data.date);
+
+                }
+            },
+            error:function(data,msg){
+                console.log(data);
+            }
+        });
+        /*$('#synh').on({
+            'switchChange.bootstrapSwitch': function (event, state) {
+                if (state == true) {
+                    $.ajax({
+                        url: "/api/address",
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            var management = data.management;
+                            $.ajax({
+                                url: "http://" + management + "/api/datetime",
+                                type: 'get',
+                                dataType: 'jsonp',
+                                jsonp: 'callbackfun',
+                                jsonpCallback: 'jsonpCallback',
+                                success: function (data) {
+                                    $("#date").val(data.datetime)
+                                }
+                            });
+
+                        }
+                    });
+                    $("#synh").attr("checked", false);
+                } else {
+                    $("#date").attr("disabled", false);
+                    $("#synh").attr("checked", true);
+                }
+            }
+        });
+        $('#date').datetimepicker({format: 'DD/MMM/YYYY HH:mm'});*/
+        $("#address_frm").validate({
+            errorLabelContainer: "#alert_msg",
+            debug: true,
+            submitHandler: function (form) {
+				var status = 1;
+                if ($('#synh').bootstrapSwitch('state')) {
+                    status = 0;
+                }
+
+				console.log(status);
+                $.ajax({
+                    url: "/api/datetime",
+                    data: {synch: status, datetime: $("#date").html()},
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.state == 0) {
+                            $("#alert_msg").hide();
+                            $("#success_msg").html("Update Success");
+                            $("#success_msg").show();
+                        } else {
+                            $("#success_msg").hide();
+                            $("#alert_msg").html("Internal Service Error");
+                            $("#alert_msg").show();
+                        }
+                    }
+                });
+            },
+            rules: {},
+            messages: {}
+        });
+        $("#logout").click(function () {
+            $.ajax({
+                url: "/api/logout",
+                data: {},
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        window.location.href = "index.html";
+                    }
+                }
+            });
+        })
+
+    });
+
+    function charLeftAll(n){
+        if(n<10)
+            return "0" + n;
+        else
+            return n;
+    }
+</script>

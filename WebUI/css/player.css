@@ -1,0 +1,33 @@
+#ubaplayer-fallback {
+    display: none;
+}
+
+.ubaplayer-button {
+    background: url("../img/btn.png") no-repeat 0 -155px;
+    display: block;
+    cursor: pointer;
+    margin: 0;
+    padding: 10px 10px 10px 25px;
+    position: relative;
+    width: 200px;
+}
+
+.ubaplayer-button.ubaplayer-playing {
+    background-position: 0 -295px;
+}
+
+#ubaplayer {
+    display: none;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-resolution: 1.5dppx) {
+    .ubaplayer-button {
+        background-position: 0px -65px;
+        background-size: 20px 250px;
+    }
+
+    .ubaplayer-button.playing {
+        background-position: 0 -144px;
+    }
+
+}

@@ -1,0 +1,20 @@
+1，准备模块
+nginx  nginx-1.10.3.tar.gz
+luajit  LuaJIT-2.1.0-beta2.tar.gz
+HttpLuaModule lua-nginx-module-0.10.7.tar.gz
+ngx_devel_kit ngx_devel_kit-0.3.0.tar.gz
+2，安装扩展库
+apt-get install gcc libpcre3 openssl zlib1g libpcre3-dev
+3，设置环境变量（luajit）
+export LUAJIT_LIB=/usr/local/lib
+export LUAJIT_INC=/usr/local/include/luajit-2.1/
+4，进入nginx源码目录
+./configure --prefix=/usr/local/nginx --add-module=/usr/local/src/lua-nginx-module-0.10.7/ --add-module=/usr/local/src/ngx_devel_kit-0.3.0/ --with-http_stub_status_module --with-http_v2_module --with-ipv6 --with-http_gzip_static_module --with-http_realip_module --with-http_flv_module --with-pcre-jit
+5，make && make install
+6，在/usr/local/nginx/conf/nginx.conf(需要加在http，server块中)中加入如下代码：
+	location /hello_lua {
+		default_type 'text/plain';
+		content_by_lua 'ngx.say("hello, lua")';
+	}
+7，重启nginx
+/usr/local/src/nginx/sbin/nginx

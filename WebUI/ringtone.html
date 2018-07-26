@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RingTone Setting</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        td{
+            padding-bottom:20px;
+        }
+
+        .ubaplayer-button {
+            background: url(../img/btn.png) no-repeat 0 -155px;
+            display: block;
+            cursor: pointer;
+            margin: 0;
+            padding: 10px 10px 10px 25px;
+            position: relative;
+            width: 200px;
+    </style>
+    <link rel="stylesheet" href="css/player.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="color:#ffffff;">ADT-10</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:#ffffff;">Welcome Admin</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="actived"><img src="img/bell.png"/><a href="ringtone.html">  RingTone Setting</a></span></li>
+                <li><img src="img/address.png"/><a href="address.html">  Address Setting</a></span></li>
+                <li><img src="img/phone.png"/><a href="sip.html">SIP Setting</a></li>
+                <li><img src="img/led.png"/><a href="led.html">  LED Setting</a></span></li>
+                <li><img src="img/lift.png"/><a href="lift.html"> Lift Control</a></span></li>
+                <li><img src="img/calendar.png"/><a href="calendar.html">DateTime Setting</a></span></li>
+                <li><img src="img/lang.png"/><a href="lang.html">Language Setting</a></span></li>
+                <!--<li><img src="img/bluetooth.png"/><a href="bluetooth.html">Bluetooth Setting</a></li>-->
+                <li><img src="img/lock.png"/><a href="password.html">Password Setting</a></li>
+                <li><img src="img/system.png"/><a href="system.html">System Status</a></li>
+            </ul>
+        </div>
+
+
+        <div class="col-sm-9  col-md-10 main">
+            <div class="alert alert-danger" role="alert" id="alert_msg"></div>
+            <div class="alert alert-success" role="alert" id="success_msg"></div>
+            <form action="#" class="form" style="margin: 20px 0 0 30px;">
+                <table width="50.5%">
+                    <tr>
+                        <td style="font-size: 18px;">Call From Outdoor</td>
+                        <td>
+                            <select data-toggle="select" class="form-control select select-primary" id="outdoor" style="width:50px;">
+                        <option value="Chimes">Chimes</option>
+                        <option value="Classic-chord">Classic-chord</option>
+                        <option value="Clear-melo">Clear-melo</option>
+                        <option value="Cuckoo">Cuckoo</option>
+                        <option value="Curve-Ball Blend">Curve-Ball Blend</option>
+                        <option value="Instant_Calm">Instant_Calm</option>
+                        <option value="Liang-Melo">Liang-Melo</option>
+                        <option value="mystic-valley">mystic-valley</option>
+                        <option value="OnePulse_tune">OnePulse_tune</option>
+                        <option value="Pretty Ricky">Pretty Ricky</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Tel-Ring">Tel-Ring</option>
+                    </select>
+                    </td>
+
+                        <td>
+                            <div id="outerdoor_wav"></div>
+                            <ul class="ubaplayer-controls" style="list-style: none;margin: 0;
+	padding: 0; padding-left: 15px">
+                                <li><a id="outerdoor_preview" class="ubaplayer-button" style="width:35px;" href="/rings/Chimes.wav">&nbsp;</a></li>
+                            </ul>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="font-size: 18px;">Call From Inhouse</td>
+                        <td>
+                            <select data-toggle="select" class="form-control select select-primary" id="inhouse" style="width:50px;">
+                        <option value="Chimes">Chimes</option>
+                        <option value="Classic-chord">Classic-chord</option>
+                        <option value="Clear-melo">Clear-melo</option>
+                        <option value="Cuckoo">Cuckoo</option>
+                        <option value="Curve-Ball Blend">Curve-Ball Blend</option>
+                        <option value="Instant_Calm">Instant_Calm</option>
+                        <option value="Liang-Melo">Liang-Melo</option>
+                        <option value="mystic-valley">mystic-valley</option>
+                        <option value="OnePulse_tune">OnePulse_tune</option>
+                        <option value="Pretty Ricky">Pretty Ricky</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Tel-Ring">Tel-Ring</option>
+                    </select>
+                        </td>
+                        <td>
+                            <div id="inhouse_wav"></div>
+                            <ul class="ubaplayer-controls" style="list-style: none;margin: 0;
+	padding: 0;padding-left: 15px">
+                                <li><a id="indoor_preview" class="ubaplayer-button" style="width:35px;" href="/rings/Chimes.wav">&nbsp;</a></li>
+                            </ul>
+                        </td>
+                        </tr>
+
+                    <tr>
+                        <td style="font-size: 18px;">Call From Management</td><td><select data-toggle="select" class="form-control select select-primary" id="management" style="width:50px;">
+                        <option value="Chimes">Chimes</option>
+                        <option value="Classic-chord">Classic-chord</option>
+                        <option value="Clear-melo">Clear-melo</option>
+                        <option value="Cuckoo">Cuckoo</option>
+                        <option value="Curve-Ball Blend">Curve-Ball Blend</option>
+                        <option value="Instant_Calm">Instant_Calm</option>
+                        <option value="Liang-Melo">Liang-Melo</option>
+                        <option value="mystic-valley">mystic-valley</option>
+                        <option value="OnePulse_tune">OnePulse_tune</option>
+                        <option value="Pretty Ricky">Pretty Ricky</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Tel-Ring">Tel-Ring</option>
+                    </select>
+                    </td>
+                        <td>
+                        <div id="management_wav"></div>
+                        <ul class="ubaplayer-controls" style="list-style: none;margin: 0;
+	padding: 0;padding-left: 15px">
+                            <li><a id="management_preview" class="ubaplayer-button" style="width:35px;" href="/rings/Chimes.wav">&nbsp;</a></li>
+                        </ul>
+                    </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size: 18px;">Duration time of Ring</td><td><select data-toggle="select" class="form-control select select-primary" id="duration" style="width:50px;">
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                    </select>
+                    </td>
+                        <td></td>
+                    </tr>
+                    <tr><td style="font-size: 18px;"><td><a id="btn" href="#" class="btn  btn-primary" style="width: 200px;">Update</a></td></tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ubaplayer.min.js"></script>
+<script>
+    $(function(){
+        $("#outdoor_wav").ubaPlayer({
+            codecs: [{name:"WAV", codec: 'audio/wav;'}]
+        });
+
+        $("#inhouse_wav").ubaPlayer({
+            codecs: [{name:"WAV", codec: 'audio/wav;'}]
+        });
+        $("#management_wav").ubaPlayer({
+            codecs: [{name:"WAV", codec: 'audio/wav;'}]
+        });
+    });
+</script>
+
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#outdoor").change(function(){
+            $("#outerdoor_preview").attr("href","rings/"+$(this).val()+".wav");
+        });
+
+        $("#inhouse").change(function(){
+            $("#indoor_preview").attr("href","rings/"+$(this).val()+".wav");
+        });
+
+        $("#management").change(function(){
+            $("#management_preview").attr("href","rings/"+$(this).val()+".wav");
+        });
+
+        $.ajax({
+            url:"/api/ringtone",
+            type:'get',
+            dataType:'json',
+            success:function(data) {
+                $("#outdoor").val(data.outdoor);
+                $("#inhouse").val(data.inhouse);
+                $("#management").val(data.management);
+                $("#duration").val(data.duration);
+                $('[data-toggle="select"]').select2();
+        		$("#outdoor").change();
+        		$("#inhouse").change();
+        		$("#management").change();
+
+                if(data.touch==0){
+                    $('#touch_tone').bootstrapSwitch('state', true);
+                }else{
+                    $('#touch_tone').bootstrapSwitch('state', false);
+                }
+            }
+        });
+
+
+        $('select[name="inverse-dropdown"], select[name="inverse-dropdown-optgroup"], select[name="inverse-dropdown-disabled"]').select2({dropdownCssClass: 'select-inverse-dropdown'});
+
+        $('select[name="searchfield"]').select2({dropdownCssClass: 'show-select-search'});
+        $('select[name="inverse-dropdown-searchfield"]').select2({dropdownCssClass: 'select-inverse-dropdown show-select-search'});
+
+        $("#btn").click(function(){
+            if($('#touch_tone').attr("checked")=="checked"){
+                var status=0;
+            }else{
+                var status=1;
+            }
+
+            $.ajax({
+                url:"/api/ringtone",
+                data:{outdoor:$("#outdoor").val(),inhouse:$("#inhouse").val(),management:$("#management").val(),duration:$("#duration").val(),touch:status},
+                type:'post',
+                dataType:'json',
+                success:function(data) {
+                    if(data.state==0){
+                        $("#alert_msg").hide();
+                        $("#success_msg").html("Update Success");
+                        $("#success_msg").show();
+                    }
+                }
+            });
+        });
+        $("#logout").click(function(){
+            $.ajax({
+                url:"/api/logout",
+                data:{},
+                type:'post',
+                dataType:'json',
+                success:function(data) {
+                    if(data.state==0){
+                        window.location.href="index.html";
+                    }
+                }
+            });
+        })
+    });
+</script>

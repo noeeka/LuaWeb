@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Title</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url("img/login/bg.png") no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 100vh;
+            background-position: center;
+            position: relative;
+        }
+
+
+        @-webkit-keyframes fadeIn {
+            0% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        .bgimg_circle {
+            height: 22vh;
+            width: 22vh;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background: #eaebed;
+            margin-top: -17vh;
+            margin-left: -34vh;
+            border-radius: 50%;
+        }
+
+        .bgimg_circle {
+            -webkit-animation: infinite;
+            -webkit-animation-name: fadeIn;
+            -webkit-animation-duration: 6s;
+            -webkit-animation-delay: 0s;
+            -webkit-animation-timing-function: linear;
+        }
+
+
+        .form-group {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .login-form {
+            position: relative;
+            padding: 24px 23px 20px;
+            /* background-color: #edeff1; */
+            border-radius: 6px;
+        }
+
+        .login-form {
+            position: relative;
+            padding: 24px 23px 20px;
+            border-radius: 6px;
+        }
+    </style>
+
+</head>
+<body>
+    <div style="height:100%;">
+        <div class="bgimg_circle"></div>
+        <table style="border-collapse:separate; border-spacing:0px 20px; top: 28%; left: 61%; position: absolute">
+            <tbody>
+                <tr>
+                    <td>
+                        <span id="title" style="line-height: 5px; color: rgb(75, 75, 75); font-size: 50px; font-family: SimHei;">ADT-10</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span id="subtitle" style="color: rgb(175, 175, 175); font-size: 30px; font-family: SimHei;">Digital Audio Phone</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input style="display: none" type="text" />
+                        <input style="display: none" type="password"/>
+                        <input style="height: 32px;" type="text" class="form-control login-field" value="" placeholder="Enter your name" id="login-name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        
+
+                        <input style="height: 32px;" type="text" onfocus="this.type='password'" class="form-control login-field" value="" placeholder="Password" id="login-pass">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="btn btn-primary btn-block" href="http://192.168.1.66/#" id="login">Log in</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span id="loginerror" style="display: none; color: #a94442;font-size: 14px;">Incorrect username or password</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script src="js/jquery.min.js"></script>
+    <script>
+    	function setCookie(cname, cvalue, exdays) {
+    		var d = new Date();
+    		d.setTime(d.getTime()+(exdays*24*60*60*1000));
+    	 	var expires = "expires="+d.toGMTString();
+    		document.cookie = cname + "=" + cvalue + "; " + expires;
+    	}
+     
+    	function getCookie(cname) {
+    		var name = cname + "=";
+    		var ca = document.cookie.split(';');
+    		for(var i=0; i<ca.length; i++) {
+    		var c = ca[i].trim();
+    			if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+    		}
+    		return "";
+    	}
+
+        $(window).resize(function () { 
+            var r0 = ($(document).width()/$(document).height());
+            if (r0 > 2.03) {
+                $('.bgimg_circle').hide()
+            }else{
+                $('.bgimg_circle').show()
+            };
+            console.log(r0)
+        });
+        $(document).ready(function () {
+            var r0 = ($(document).width()/$(document).height());
+            if (r0 > 2.03) {
+                $('.bgimg_circle').hide()
+            };
+            console.log(r0)
+            $("#login").click(function () {
+                var name = $("#login-name").val();
+                var pass = $("#login-pass").val();
+                $.post("/api/login", {name: name, password: pass}, function (result) {
+                    if (result.state == 1) {
+                        $("#loginerror").show();
+                        //$("#alert_msg").html("Invalidate Login, Please retry:)");
+                        //$("#alert_msg").show();
+                        //$(".login").css("float", "left");
+                        //$("#alert_msg").css("width", "100%")
+                        //$(".login-screen").css("overflow", "hidden").css("height", "430px").css("height", "430px").css("margin-top", "-30px").css("width", "100%").css("float", "left").css('min-height', "100px;").css('padding', "70px 199px 33px 306px");
+                    } else if (result.state == 0) {
+    					setCookie("name", name, 100);
+                        window.location.href = "ringtone.html";
+                    }
+                }, 'json');
+            });
+
+            $("body").keydown(function () {
+                if (event.keyCode == "13") {//keyCode=13是回车键
+                    $('#login').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

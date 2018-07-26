@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Address Setting</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        #success_msg {
+        margin: 0 0 0 20px;
+        display: none;
+    }
+        #alert_msg {
+            margin: 0 0 0 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="color:#ffffff;">ADT-10</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:#ffffff;">Welcome Admin</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><img src="img/bell.png"/><a href="ringtone.html"> RingTone
+                    Setting</a></span></li>
+                <li class="actived"><img src="img/address.png"/><a href="address.html"> Address
+                    Setting</a></span></li>
+                <li><img src="img/phone.png"/><a href="sip.html">SIP Setting</a></li>
+                <li><img src="img/led.png"/><a href="led.html"> LED
+                    Setting</a></span></li>
+                <li><img src="img/lift.png"/><a href="lift.html"> Lift
+                    Control</a></span></li>
+                <li><img src="img/calendar.png"/><a href="calendar.html">DateTime
+                    Setting</a></span></li>
+                <li><img src="img/lang.png"/><a href="lang.html">Language
+                    Setting</a></span></li>
+                <!--<li><img src="img/bluetooth.png"/><a href="bluetooth.html">Bluetooth
+                    Setting</a></li>-->
+                <li><img src="img/lock.png"/><a href="password.html">Password
+                    Setting</a></li>
+                <li><img src="img/system.png"/><a href="system.html">System
+                    Status</a></li>
+            </ul>
+
+        </div>
+
+
+        <div class="col-sm-9  col-md-10 main">
+            <div class="alert alert-danger" role="alert" id="alert_msg"></div>
+            <div class="alert alert-success" role="alert" id="success_msg"></div>
+            <form id="address_frm" style="margin: 20px 0 0 20px;">
+                <div class="panel panel-success">
+                    <div class="panel-heading">Address</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="address" class="col-lg-2 control-label">Address:</label>
+                            Room:<input id="room" style="display: inline;width:9%;" class="form-control input-sm" type="text" maxlength="4">Block:<input id="block"
+                                class="form-control input-sm" type="text" style="display: inline;width:9%;" maxlength="2">Building:<input id="rise"
+                                                                                                                                                          style="display: inline;width:9%;" class="form-control input-sm" type="text" maxlength="3">
+                            <input class="form-control" type="hidden" id="address" name="address">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">LAN Setting</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="ip" class="col-lg-2 control-label">IP:</label>
+                            <input style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">
+                            <input class="form-control" type="hidden" id="ori_ip" name="ori_ip">
+                            <input class="form-control" type="hidden" id="ip" name="ip">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mask" class="col-lg-2 control-label">Mask:</label>
+                            <input style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">
+
+                            <input class="form-control" type="hidden" id="mask" name="mask">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gateway" class="col-lg-2 control-label">Gateway:</label>
+                            <input style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">
+
+                            <input class="form-control" type="hidden" id="gateway" name="gateway">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">Service Address</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="management" class="col-lg-2 control-label">Management:</label>
+                            <input style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">
+
+                            <input class="form-control" type="hidden" id="management" name="management" value="...">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="guard" class="col-lg-2 control-label">Guard Unit:</label>
+                            <input style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                style="display: inline;width:10%;" class="form-control input-sm" type="text">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">.<input
+                                class="form-control input-sm" type="text" style="display: inline;width:10%;">
+
+                            <input class="form-control" type="hidden" id="guard" name="guard" value="...">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="btn" class="col-lg-2 control-label"></label><input type="submit" id="btn" href="#" class="btn  btn-primary" style="width: 200px;" value="Update"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script src="js/flat-ui.min.js"></script>
+<script src="js/application.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //reading Data from API
+        $.ajax({
+            url: "/api/address",
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                //parsing address data
+                var address = data.address;
+                $("#address").parent().find("input").each(function (k, v) {
+                    $(v).val(address[k])
+                })
+var address_sets=data.address;
+                $("#address").val('["'+address_sets[0]+'","'+address_sets[1]+'","'+address_sets[2]+'"]');
+
+                //parsing IP data
+                var ip_sets = data.ip.split(".")
+                $("#ip").parent().find("input").each(function (k, v) {
+                    $(v).val(ip_sets[k])
+                })
+                $("#ip").val(data.ip);
+                $("#ori_ip").val(data.ip);
+
+                //parsing gateway data
+                var gateway_sets = data.gateway.split(".")
+                $("#gateway").parent().find("input").each(function (k, v) {
+                    $(v).val(gateway_sets[k])
+                })
+                $("#gateway").val(data.gateway);
+
+                //parsing mask data
+                var mask_sets = data.mask.split(".")
+                $("#mask").parent().find("input").each(function (k, v) {
+                    $(v).val(mask_sets[k])
+                })
+                $("#mask").val(data.mask);
+
+                //parsing management data
+                var management_sets = data.management.split(".")
+                $("#management").parent().find("input").each(function (k, v) {
+                    $(v).val(management_sets[k])
+                })
+                $("#management").val(data.management);
+
+                //parsing guard data
+                var guard_sets = data.guard.split(".")
+                $("#guard").parent().find("input").each(function (k, v) {
+                    $(v).val(guard_sets[k])
+                })
+                $("#guard").val(data.guard);
+            }
+        });
+        $("#room").keyup(function () {
+            this.value = this.value.replace(/[^0-9a-zA-Z]/g, '');
+        })
+
+		$("#block").keyup(function () {
+            this.value = this.value.replace(/[^0-9a-zA-Z]/g, '');
+        })
+
+		$("#rise").keyup(function () {
+            this.value = this.value.replace(/[^0-9a-zA-Z]/g, '');
+        })
+
+        $("input:not(#btn)").keyup(function () {
+            if ($(this).parent().children("input:last-child").attr("id") == "address") {
+                $(this).parent().children("input:last-child").val('["' + $(this).parent().children().eq(1).val() + '","' + $(this).parent().children().eq(2).val() + '","' + $(this).parent().children().eq(3).val() + '"]');
+            } else {
+                this.value = this.value.replace(/[^\d]/g, '');
+                $(this).parent().children("input:last-child").val($(this).parent().children().eq(1).val() + "." + $(this).parent().children().eq(2).val() + "." + $(this).parent().children().eq(3).val() + "." + $(this).parent().children().eq(4).val());
+            }
+
+        });
+
+        jQuery.validator.addMethod("ip", function (value, element) {
+            $("#success_msg").hide();
+            return this.optional(element) || /^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/.test(value);
+        }, "Please input correct IP");
+        jQuery.validator.addMethod("mask", function (value, element) {
+            $("#success_msg").hide();
+            return this.optional(element) || /^(254|252|248|240|224|192|128|0)\.0\.0\.0|255\.(254|252|248|240|224|192|128|0)\.0\.0|255\.255\.(254|252|248|240|224|192|128|0)\.0|255\.255\.255\.(254|252|248|240|224|192|128|0)$/.test(value);
+        }, "Please input correct mask");
+		jQuery.validator.addMethod("address", function (value, element) {
+            $("#success_msg").hide();
+            return this.optional(element) || /^\["[0-9a-zA-Z]{1,4}","[0-9a-zA-Z]{1,2}","[0-9a-zA-Z]{1,3}"\]$/.test(value);
+        }, "Please input correct Address");
+
+        $("#address_frm").validate({
+            errorLabelContainer: "#alert_msg",
+            errorElement: "div",
+            debug: false,
+            submitHandler: function (form) {
+                console.log("laji  submitHandler");
+                var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+                if($("#room").val()=="" || $("#rise").val()=="" || $("#block").val()=="" || reg.test($("#block").val())){
+                    $("#success_msg").hide();
+                    $("#alert_msg").html("Please input correct address");
+                    $("#alert_msg").show();
+                    return false;
+                }
+                if($("#management").val()!="..."){
+                    if(/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/.test($("#management").val())==false){
+
+                        $("#success_msg").hide();
+                        $("#alert_msg").html("Please input Management IP");
+                        $("#alert_msg").show();
+                        return false;
+                    }
+                }
+
+                if($("#guard").val()!="..."){
+                    if(/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/.test($("#guard").val())==false){
+
+                        $("#success_msg").hide();
+                        $("#alert_msg").html("Please input Guard IP");
+                        $("#alert_msg").show();
+                        return false;
+                    }
+                }
+                $.ajax({
+                    url: "/api/address",
+                    data: {
+                        address: $("#address").val(),
+                        ip: $("#ip").val(),
+                        mask: $("#mask").val(),
+                        gateway: $("#gateway").val(),
+                        management: $("#management").val(),
+                        guard: $("#guard").val()
+                    },
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.state == 0) {
+                            $("#alert_msg").hide();
+                            $("#success_msg").html("Update Success");
+                            $("#success_msg").show();
+                            if($("#ori_ip").val()!=$("#ip").val()){
+                                location.href = "http://"+$("#ip").val();
+                            }
+                        } else {
+                            $("#success_msg").hide();
+                            $("#alert_msg").html("Internal Service Error");
+                            $("#alert_msg").show();
+                        }
+                    }
+                });
+            },
+            rules: {
+                ip: {
+                    ip: true,
+                },
+                mask: {
+                    mask: true,
+                },
+                gateway: {
+                    ip: true,
+                },
+				address: {
+                    address: true,
+                },
+
+            },
+			errorPlacement:function(error, element) {  
+				console.log(error);
+   			},
+			showErrors: function(errorMap, errorList) {
+				if(this.errorList.length > 0) {
+					this.errorList = [this.errorList[0]];
+				}
+				this.defaultShowErrors();
+			},
+            messages: {
+                ip: {
+                    ip: "Please input correct IP"
+                },
+                mask: {
+                    ip: "Please input correct netmask"
+                },
+                gateway: {
+                    ip: "Please input correct gateway"
+                },
+				address: {
+                    address: "Please input correct Address"
+                },
+
+            },
+
+        });
+        $("#logout").click(function () {
+            $.ajax({
+                url: "/api/logout",
+                data: {},
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        window.location.href = "index.html";
+                    }
+                }
+            });
+        })
+    });
+</script>
